@@ -5,19 +5,30 @@ describe("Exploratory tests - string", function() {
   it("String can be concatenated with + operator", function() {
     let a = "cats";
     let b = "dogs";
-    let c //= ....;
+    let c = a + " and " + b;
     assert.strictEqual(c, "cats and dogs");
   });
   it("String can be concatenated with templated literal", function() {
     let a = "cats";
     let b = "dogs";
-    let c //=....;
+    let c = `${a} and ${b}`;
     assert.strictEqual(c, "cats and dogs");
   });
   it("Pad all strings to size of longest", function() {
     const strings = ["a", "bb", "ccc"];
-    let result;
-    // ....
+    let result = [];
+    let max;
+    let index;
+
+    for(let i = 0; i < strings.length; i++){
+      if(i === 0 || max < strings[i].length)
+        max = strings[i].length;
+    }
+    
+    for(let i = 0; i < strings.length; i++){
+      result[i] = strings[i].padStart(max, ' ');
+    }
+
     // ....
     // ....
     // ....
@@ -25,7 +36,8 @@ describe("Exploratory tests - string", function() {
   });
   it("replace all animals in sentence", function() {
     const sentence = "cats ignore dogs";
-    let result;//=... 
+    let result; result = sentence.replace("cats", "");
+    result = result.replace("dogs", ""); 
     assert.strictEqual(result, " ignore ");
   });
   it("codepoints length", function() {
@@ -35,6 +47,8 @@ describe("Exploratory tests - string", function() {
     function lengthCp(str){
       //return TODO: implement method return string length 
       // in codepoints, not in characters
+      let jano = Array.from(str);
+      return jano.length;
     }
     assert(lengthCp(cow)===5);
   });
