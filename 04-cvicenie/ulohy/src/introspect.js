@@ -16,7 +16,7 @@ module.exports = {
 };
 // Object.keys supporting Symbols and non-enumerables 
 function allOwnKeys(o) {
-  
+
 }
 // Object.values supporting Symbols and non-enumerables 
 function allOwnValues(o) {
