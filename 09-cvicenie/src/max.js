@@ -8,6 +8,7 @@ const fn = require("./filterArgs.js");
 
 // 2. kodnime si prvy helper pre filterArgs
 const isNumber = (any) => typeof any === "number" && any === any;
+const negative = (any) => typeof any === "number" && any < 0;
 
 // 3. kodnime funkciu maxNumber
 // ktora odignoruje vsetky parametre, ktore nie su cislo
@@ -30,8 +31,8 @@ const maxNumber = fn(Math.max, isNumber);
 const minNumber = fn(Math.min, isNumber);
 const minInteger = fn(Math.min, Number.isInteger);
 const minFinite = fn(Math.min, isFinite);
-const isNegative = fn(Number.isNegative)
-const maxNegativeInteger = fn(Math.max, Number.isNegative)
+const isNegative = fn(negative)
+const maxNegativeInteger = fn(Math.max, Number.isInteger, Number.isNegative, )
 // const maxNegativeInteger = fn(Math.max, [isNegative, isInteger])
 
 // 7.   priklad ma demonstrovat ako dokazeme
@@ -44,9 +45,9 @@ const maxNegativeInteger = fn(Math.max, Number.isNegative)
 // a ine filtre
 const { isStringObject } = require("util").types;
 const isString = s => typeof s === "string";
-const concat = 
+const concat = String.prototype.concat.bind("");
 //   
-// const concatSafe = fn(concat, or(isNumber, isString, isStringObject));
+const concatSafe = fn(concat, or(isNumber, isString, isStringObject));
 
 
 module.exports = {
@@ -90,7 +91,7 @@ process.env.SELF_TEST && (() => {
 
   assert(maxNegativeInteger(-2, -1, -1.1, 0, 1.1, 1) == -1);
 
-  // assert.equal(concatSafe('a', 7, String('b'), 'c', new Date(2020, 1, 1), true), 'a7bc');
+  assert.equal(concatSafe('a', 7, String('b'), 'c', new Date(2020, 1, 1), true), 'a7bc');
 
   console.error(`[self test]:${__filename}:OK`)
 
