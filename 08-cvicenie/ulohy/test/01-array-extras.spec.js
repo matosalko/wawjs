@@ -18,7 +18,7 @@ describe("FP - array functions", function() {
     // pozrite si strukturu objektov v poli a implementujte
     // zoznam studentov ktorym chyba git repo
     let missingGit = students.filter((s)=>
-      ('git' in s) == false
+      !('git' in s)
     )
 
 
@@ -181,7 +181,7 @@ describe("FP - array functions", function() {
       .map(fixProjects)
       .reduce((uniqueProjects, student) => {
         const k = student.projects;
-        k.map(el => {
+        k.forEach(el => {
           let vals = uniqueProjects.get(el);
           vals && vals.push(student["#"]) || uniqueProjects.set(el, [student["#"]]);
         })
@@ -190,12 +190,10 @@ describe("FP - array functions", function() {
       }, new Map())
       
       duplicateProjects = [...duplicateProjects];
-      duplicateProjects = duplicateProjects.filter((e) => e[1].length > 1 )
-        .reduce((r,[k, v]) => {
-          let x = {}
-          x["project"] = k;
-          x["students"] = v;
-          r.push(x);
+      duplicateProjects = duplicateProjects
+        .filter(([project, students]) => students.length > 1 )
+        .reduce((r,[project, students]) => {
+          r.push({project, students});
           return r;
         },[])
 
