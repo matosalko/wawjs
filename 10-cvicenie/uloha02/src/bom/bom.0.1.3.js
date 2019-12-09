@@ -47,9 +47,30 @@ class AddBom extends Transform {
 }
 
 class RemoveBom extends Transform {
-
-    _transform(chunk, enc, cb) {
-      this.push(chunk);
-      cb();
-    }
+    constructor() {
+        super();
+        this._bomDone = false;
+        this._buff = [];
+      }
+      _transform(chunk, enc, cb) {
+        if (this._bomDone)
+          return cb(null, chunk);
+    
+        this._buff.push(chunk);
+        if (bufLength(this._buff) >= 3)
+          this._pushBuffered();
+    
+        cb();
+      }
+      _pushBuffered() {
+        let chunk = Buffer.concat([...this._buff]);
+        if (hasBom(chunk)) {
+            this.push(chunk.slice(3));
+        } 
+        else {
+            this.push(chunk);
+        }
+        this._bomDone = true;
+        this._buff = null;
+      }
 }

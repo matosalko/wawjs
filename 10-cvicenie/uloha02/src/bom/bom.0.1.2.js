@@ -47,9 +47,25 @@ class AddBom extends Transform {
 }
 
 class RemoveBom extends Transform {
-
+    constructor() {
+        super();
+        this.isFirstCall = true
+    }
+    
     _transform(chunk, enc, cb) {
-      this.push(chunk);
+      if (this.isFirstCall) {
+        if (hasBom(chunk)) {
+            this.push(chunk.slice(3));
+        }
+        else {
+            this.push(chunk);
+        }
+        this.isFirstCall = false;
+      }
+      else{
+        this.push(chunk);
+      }
+      
       cb();
     }
-}
+  }
